@@ -1,0 +1,8 @@
+<view wx:for="{{column}}" class="classify-exer-lists row {{item.class}} {{index == 0?'first':''}}">
+    <navigator wx:for="{{item.option}}"  wx:for-index="idx" wx:for-item="option" url="../../pages/answer_info/info?subject={{subject}}&type={{type}}&chapterID={{option.id}}" class="classify-exer-list col-hg-12 {{!!(idx%2-0)?'':'left'}}" hover-class="navigator-hover">
+        <view wx:if="{{option.exerTip}}" class="special-exer-tip">{{option.exerTip}}</view>
+        <view wx:elif="{{!item.class}}" class="icon-exer"></view>
+        {{option.title}}
+        <view wx:if="{{option.count}}" class="classify-exam-num">{{option.count}}<view class="icon-label-class"></view></view>
+    </navigator>
+</view>

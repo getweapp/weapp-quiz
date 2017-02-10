@@ -1,43 +1,51 @@
 <!-- 渲染普通的单项数据 -->
 <template name="radio">
   <view class="container">
-  <block wx:for="{{itemList.options}}" wx:key="item.id">
-    <view class="list {{item.class}}" data-option="{{[item,index,idx]}}" bindtap="tapRadio">
-      <view class="number"> {{item.tip}}</view> {{item.content}}
-    </view>
+  <block wx:for="{{itemList.options}}">
+    <block wx:if="{{!answers.allLists[answers.start+idx].isNoFirst}}">
+      <view class="list {{answers.allLists[answers.start+idx].options[index].isActive?'active':''}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapRadio">
+        <view class="number"> {{item.tip}}</view> {{item.content}}
+      </view>
+    </block>
+    <block wx:if="{{answers.allLists[answers.start+idx].isNoFirst}}">
+      <block wx:if="{{answers.allLists[answers.start+idx].options[index].isSelect}}">
+        <view class="list {{!answers.allLists[answers.start+idx].options[index].correct?'error':'success'}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapRadio">
+          <view class="number"> {{item.tip}}</view> {{item.content}}
+        </view>
+      </block>
+      <view wx:else class="list {{answers.allLists[answers.start+idx].options[index].correct?'success':''}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapRadio">
+          <view class="number"> {{item.tip}}</view> {{item.content}}
+      </view>
+    </block>
+    
   </block>
-  </view>  
+  </view>
 </template>
 
 <!-- 渲染普通的多选数据 -->
 <template name="checkbox">
   <view class="container">
-  <block wx:for="{{itemList.options}}" >
-    <view class="list {{item.class}}" data-option="{{[item,index,idx]}}" bindtap="tapCheckbox">
-      <view class="number"> {{item.tip}}</view> {{item.content}}
-    </view>
+  <block wx:for="{{itemList.options}}">
+    <block wx:if="{{!answers.allLists[answers.start+idx].isNoFirst}}">
+      <view class="list {{answers.allLists[answers.start+idx].options[index].isActive?'active':''}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapCheckbox">
+        <view class="number"> {{item.tip}}</view> {{item.content}}
+      </view>
+    </block>
+    <block wx:if="{{answers.allLists[answers.start+idx].isNoFirst}}">
+      <block wx:if="{{answers.allLists[answers.start+idx].options[index].isSelect}}">
+        <view class="list {{!answers.allLists[answers.start+idx].options[index].correct?'error':'success'}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapCheckbox">
+          <view class="number"> {{item.tip}}</view> {{item.content}}
+        </view>
+      </block>
+      <view wx:else class="list {{answers.allLists[answers.start+idx].options[index].correct?'active-success':''}}" data-option="{{[item,item.tip,idx]}}" bindtap="tapCheckbox">
+          <view class="number"> {{item.tip}}</view> {{item.content}}
+      </view>
+    </block>
+    
   </block>
-  </view> 
-  <view class="btn"  bindtap="tapSelect">确定</view>
-</template>
+  </view>
 
-<!-- 题目选择模层 -->
-<template name="layer">
- <scroll-view  class="status-lists"scroll-y="true">
- <block wx:for="{{answers.allLists}}" wx:key="item.id">
-    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 0}}" class="status-list {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
-    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 1}}" class="status-list success  {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
-    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 2}}" class="status-list error  {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
-  </block>
- </scroll-view>
-</template>
-
-<!-- 试题详解 -->
-<template name="tip">
- <view class="resolve">
-  <view class="h1">试题详解</view>
-  {{itemList.tip}}
- </view>
+  <view class="btn" wx:if="{{!answers.allLists[answers.start+idx].isNoFirst}}"  bindtap="tapSelect">确定</view>
 </template>
 
 <!-- 页面题目模板 -->
@@ -51,15 +59,17 @@
       <video wx:if="{{itemList.media_type == 2}}" src="{{itemList.media_url}}"></video>
     </view>
 
-    <template  wx:if="{{itemList.type == '多选'}}" is="checkbox" data="{{itemList,idx}}"/>
-    <template  wx:else is="radio" data="{{itemList,idx}}"/>
+    <template  wx:if="{{itemList.type == '多选'}}" is="checkbox" data="{{itemList,idx,answers}}"/>
+    <template  wx:else is="radio" data="{{itemList,idx,answers}}"/>
 
     <!--<template is="tip" data="{{answers,itemList}}"/>-->
 </template>
+
+
 <!-- 题目展示页面 -->
 <template name="movie-lists">
   <view class='swiper-lists' catchtouchend='touchEnd' catchtouchstart='setEvent'>
-    <block wx:for="{{answers.list}}" wx:for-item="itemList" wx:for-index="idx" wx:key="itemList.id">
+    <block wx:for="{{answers.list}}" wx:for-item="itemList" wx:for-index="idx">
         <view  wx:if="{{idx == swiper.active-1}}" class='swiper-list prev' animation="{{swiper.animationO}}">
           <template is="movie-list" data="{{idx,itemList,answers,layerlayer}}"/>
         </view>
@@ -71,11 +81,30 @@
         </view>
     </block>
   </view>
+  
+<!-- 试题详解 -->
+<template name="tip">
+ <view class="resolve">
+  <view class="h1">试题详解</view>
+  {{itemList.tip}}
+ </view>
+</template>
+
+<!-- 题目选择模层 -->
+<template name="layer">
+ <scroll-view  class="status-lists"scroll-y="true">
+ <block wx:for="{{answers.allLists}}" >
+    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 0}}" class="status-list {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
+    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 1}}" class="status-list success  {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
+    <view bindtap="setActiveNum" data-option="{{index}}" wx:if="{{item.isAnswer == 2}}" class="status-list error  {{answers.activeNum == index?'active':''}}">{{index+1}}</view>
+  </block>
+ </scroll-view>
+</template>
 
   <view hidden="{{!layerlayer.isLayerShow}}" class="footer-layer" bindtap="layerFooterClick"></view>
   <view class="footer" animation="{{layerlayer.layerAnimation}}">
     <view class="count">
-      <view class="collect" wx:if="{{!answers.list.isStore}}" bindtap="collectList">收藏</view>
+      <view class="collect" wx:if="{{!answers.allLists[answers.activeNum].isStore}}" bindtap="collectList">收藏</view>
       <view class="collect active" wx:else bindtap="collectList">收藏</view>
       <view class="page" bindtap='pageClick'>{{answers.activeNum + 1}}/{{answers.allLists.length}}</view>
       <view class="success">{{answers.success}}</view>

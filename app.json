@@ -1,13 +1,19 @@
 {
   "pages":[
-    "pages/index/index"
+    "pages/index/index",
+    "pages/answer_chapter/chapter",
+    "pages/answer_classify/classify",
+    "pages/answer_simulate_info/simulate_info",
+    "pages/answer_mark/mark",
+    "pages/answer_simulate_tip/simulate_tip",
+    "pages/answer_info/info"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "backgroundColor":"#f6f6f6",
-    "navigationBarBackgroundColor": "#ffff00",
-    "navigationBarTitleText": "题库",
-    "navigationBarTextStyle":"black",
+    "navigationBarBackgroundColor": "#38393c",
+    "navigationBarTitleText": "学车题库",
+    "navigationBarTextStyle":"white",
     "enablePullDownRefresh":true
   }
 }

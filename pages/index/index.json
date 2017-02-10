@@ -1,4 +1,4 @@
 {
-    "navigationBarTitleText": "题库",
-    "enablePullDownRefresh":false
+    "navigationBarTitleText": "学车题库",
+    "enablePullDownRefresh":true
   }

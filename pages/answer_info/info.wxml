@@ -1,0 +1,46 @@
+<!--index.wxml-->
+
+<import src="../answer_common/movie-list.wxml"/>
+
+
+<!-- 题目展示页面 -->
+<template name="movie-lists">
+  <view class='swiper-lists' bindtouchend='touchEnd' bindtouchstart='setEvent'>
+    <block wx:for="{{swiper.list}}" wx:for-item="itemList" wx:for-index="idx">
+        <view  wx:if="{{idx == 0}}" class='swiper-list prev' animation="{{swiper.animationO}}">
+          <template is="movie-list" data="{{idx,itemList,answers,layerlayer}}"/>
+        </view>
+        <view  wx:if="{{idx == 1}}" class='swiper-list' animation="{{swiper.animationT}}">
+          <template is="movie-list" data="{{idx,itemList,answers,layerlayer}}"/>
+        </view>
+        <view  wx:if="{{idx == 2}}" class='swiper-list next' animation="{{swiper.animationS}}">
+          <template is="movie-list" data="{{idx,itemList,answers,layerlayer}}"/>
+        </view>
+    </block>
+  </view>
+
+  <view hidden="{{!layerlayer.isLayerShow}}" class="footer-layer" bindtap="layerFooterClick"></view>
+  <view class="footer" animation="{{layerlayer.layerAnimation}}">
+    <view class="count">
+      <view class="collect" wx:if="{{!answers.allLists[answers.activeNum].isStore}}" bindtap="collectList">收藏</view>
+      <view class="collect active" wx:else bindtap="collectList">取消收藏</view>
+      <view class="remove" wx:if="{{answers.isShowRemove}}" bindtap="setRemoveList">移除</view>
+      <view class="page" bindtap='pageClick'>{{answers.showActiveNum + 1}}/{{answers.allLists.length}}</view>
+      <view class="success">{{answers.success}}</view>
+      <view class="error">{{answers.error}}</view>
+    </view>
+    <template is="layer" data="{{answers,layerlayer}}" />
+  </view>
+</template>
+
+
+<loading hidden="{{isLoading}}">加载中...</loading>
+
+<block wx:if="{{answers.list.length != 0}}">
+    <template is="movie-lists" data="{{answers,layerlayer,swiper,isLoading}}"/>
+</block>
+<block wx:else>
+  <view class="metadata">
+    <view>暂无数据</view>
+  </view>
+</block>

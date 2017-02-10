@@ -1,0 +1,2 @@
+/*引入answer_info的css文件*/
+@import "../answer_common/movie-list.wxss";

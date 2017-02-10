@@ -1,0 +1,12 @@
+
+<loading hidden="{{isLoading}}">加载中...</loading>
+<block  wx:if="{{isLoading}}"  wx:for="{{column}}">
+<view class="classify-exer-lists row {{item.class}}">
+    <navigator wx:for="{{item.option}}"  wx:for-index="idx" wx:for-item="option" url="../../pages/answer_info/info?subject={{subject}}&type={{option.type}}&chapterID={{option.chapterID}}"  class="classify-exer-list {{item.option.length == idx+1 && !!(item.option.length%2-0)?'col-hg-12':'col-hg-6'}} {{!!(idx%2-0)?'':'left'}}" hover-class="navigator-hover">
+        <view wx:if="{{option.exerTip}}" class="special-exer-tip">{{option.exerTip}}</view>
+        <view wx:elif="{{!item.class}}" class="icon-exer"></view>
+        {{option.text}}
+        <view wx:if="{{option.examNum}}" class="classify-exam-num">{{option.examNum}}<view class="icon-label-class"></view></view>
+    </navigator>
+</view>
+</block >

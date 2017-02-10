@@ -1,0 +1,42 @@
+page{
+    background: #fff;
+}
+.simulate-tx{
+    width: 180rpx;
+    height: 180rpx;
+    margin:82rpx auto 0;
+    border: 10rpx solid #edf2f2;
+    border-radius: 100rpx;
+    overflow: hidden;
+}
+.simulate-tx image{
+    width: 100%;
+    height:100%;
+}
+.simulate-name{
+    padding: 16rpx 0 38rpx;
+    font-size: 40rpx;
+    text-align: center;
+}
+.simulate-info{
+    width: 632rpx;
+    margin: auto;
+    padding: 33rpx 28rpx;
+    border: 1rpx solid #e3e5e5;
+    border-radius: 10rpx;
+    background: #f2f5f5;
+    font-size: 28rpx;
+    color: #666;
+    line-height: 48rpx;
+}
+.simulate-btn{
+    width: 690rpx;
+    height: 88rpx;
+    margin:30rpx auto 0;
+    background: #fed835;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #3d3d3c;
+    text-align: center;
+    line-height: 88rpx;
+}

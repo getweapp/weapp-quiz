@@ -1,0 +1,19 @@
+<view class="score-header">
+    <view class="score-toux">
+      <image mode="aspectFill" src="{{userInfo.avatarUrl}}"></image>
+    </view>
+    <view class="score-name">{{userInfo.nickName}}</view>
+    <view class="score-info">
+        <view class="score-num">分数：<view class="red">{{score}}</view>分</view>
+        <view class="score-time">用时：<view class="red">{{minutes}}</view>分<view class="red">{{seconds}}</view>秒</view>
+    </view>
+</view>
+<view class="score-chao-tip">经学车啦鉴定，送您称号</view>
+<view class="score-chao-box {{grades}}">
+    <view class="score-chao"></view>
+    <view class="score-img"></view>
+</view>
+<view class="score-operation">
+    <navigator url="../../pages/answer_simulate_tip/simulate_tip?subject={{subject}}&type=mnks" redirect class="score-operation-btn">重新考试</navigator>
+    <view bindtap='gotoWDCT' class="score-operation-btn">错题回顾</view>
+</view>

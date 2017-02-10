@@ -1,6 +1,47 @@
 <!--index.wxml-->
+<swiper class="index-banner" indicator-dots="{{swiper.indicatorDots}}" autoplay="{{swiper.autoplay}}" interval="{{swiper.interval}}" duration="{{swiper.duration}}">
+    <swiper-item wx:for="{{swiper.imgUrls}}">
+      <image src="{{item}}" class="slide-image" width="100%" height="300rpx"/>
+    </swiper-item>
+</swiper>
 
-<import src="../common/movie-list.wxml"/>
+<template name="index-exam">
+    <view class="index-exam-h1">
+        {{item.subjectHeader}}
+        <view class="index-exam-span">共{{item.titleTota}}题</view>
+    </view>
+    <view class="index-exam-inlets row">
+        <view bindtap="tapInletsMk" data-urlParem='{{item.subject}}' class="index-exam-inlets-mk col-hg-6">
+            <view>模拟考试</view>
+            <view class="small">最高成绩: {{item.highest}}分</view>
+        </view>
+        <view bindtap="tapInletsSC" class="index-exam-inlets-sc col-hg-6" data-urlParem="{{item.subject}}" data-collection="{{item.collection}}">
+            <view>收藏</view>
+            <view>（{{item.collection}}）</view>
+        </view>
+        <view bindtap="tapInletsCT" class="index-exam-inlets-ct col-hg-6" data-urlParem="{{item.subject}}" data-answerError="{{item.answerError}}">
+            <view>答错</view>
+            <view>（{{item.answerError}}）</view>
+        </view>
+        <view class="row" style="clear: both;">
+            <navigator url="../../pages/answer_classify/classify?subject={{item.subject}}&type=zxlx" class="index-exam-inlets-list col-hg-3">
+                <view class="icon-index-zx"></view>
+                <view class="text">专项练习</view>
+            </navigator>
+            <navigator url="../../pages/answer_chapter/chapter?subject={{item.subject}}&type=zjlx" class="index-exam-inlets-list col-hg-3">
+                <view class="icon-index-zj"></view>
+                <view class="text">章节练习</view>
+            </navigator>
+            <navigator url="../../pages/answer_info/info?subject={{item.subject}}&type=sjlx" class="index-exam-inlets-list col-hg-3">
+                <view class="icon-index-sj"></view>
+                <view class="text">随机练习</view>
+            </navigator>
+            <navigator url="../../pages/answer_info/info?subject={{item.subject}}&type=sxlx" class="index-exam-inlets-list col-hg-3">
+                <view class="icon-index-sx"></view>
+                <view class="text">顺序练习</view>
+            </navigator>
+        </view>
+    </view>
+</template>
 
-<loading hidden="{{!isLoading}}">加载中...</loading>
-<template wx:if="{{!isLoading}}" is="movie-lists" data="{{answers,layerlayer,swiper}}"/>
+<template wx:for="{{examInlets}}" is="index-exam" data="{{item,index}}"/>
